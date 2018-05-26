@@ -1,0 +1,20 @@
+CREATE TABLE album (
+  album_id int(11) NOT NULL auto_increment,
+  album_name varchar(255) NOT NULL default '',
+  album_desc text NOT NULL,
+  album_cover varchar(255) NOT NULL default '',
+  PRIMARY KEY  (album_id),
+  KEY album_name (album_name)
+);
+
+CREATE TABLE photo (
+  photo_id int(11) NOT NULL auto_increment,
+  photo_title varchar(255) NOT NULL default '',
+  photo_desc text NOT NULL,
+  photo_date datetime NOT NULL default '0000-00-00 00:00:00',
+  photo_location varchar(255) NOT NULL default '',
+  thumbnail_location varchar(255) NOT NULL default '',
+  album_id int(11) NOT NULL default '0',
+  PRIMARY KEY  (photo_id),
+  KEY photo_title (photo_title)
+);

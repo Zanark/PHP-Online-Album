@@ -1,4 +1,4 @@
-CREATE TABLE album (
+CREATE TABLE albums (
   album_id int(11) NOT NULL auto_increment,
   album_name varchar(255) NOT NULL default '',
   album_desc text NOT NULL,

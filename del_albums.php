@@ -7,7 +7,10 @@ $msg = "";
   $msg .= "Album not selected.  Please choose an album you wish to delete!";
   $msg .= "<br /><a href=\"edit_albums.php\">Edit albums</a>";
   displayPage($msg, "Error Selecting Album");
- } else {
+ } 
+
+//Album of selected album id will get deleted
+ else {
   $dbcnx = db_connect();
   // Delete specified album
   $sql = "DELETE FROM albums WHERE album_id = " . addslashes($_GET['album_id']);

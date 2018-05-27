@@ -1,9 +1,13 @@
 <?php
+
+//If number of images has not been chosen
 if (!$_POST['num_images']){
 echo("Please specify the # of images you wish to upload!<br />");
 echo("Click <a href='javascript:history.go(-1)'>here</a> to go back.");
 die();
-} else { 
+} 
+
+else { 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

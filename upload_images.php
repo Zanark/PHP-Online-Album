@@ -36,10 +36,10 @@ to create a new album, click the Create New Album link below.</p>
 <td><select name="albums" id="albums">
 <?php
 include("include/config.php");
-db_connect();
+$dbcnx = db_connect();
 $sql = "SELECT album_id, album_name FROM albums";
-$result = @mysql_query( $sql ) or die("Error retrieving records: " . mysql_error());
-while ( $row = mysql_fetch_array($result) ){
+$result = mysqli_query( $dbcnx , $sql ) or die("Error retrieving records: " . mysqli_error($dbcnx));
+while ( $row = mysqli_fetch_array($result) ){
 echo("<option value=" . $row['album_id'] . ">" . $row['album_name'] . "</option>");
 }
 ?>

@@ -1,5 +1,8 @@
 <?php
  include_once("include/config.php");
+
+ $msg = "";
+
  // Has album been updated?
  if ( $_POST['edit'] ){
   if ( empty($_POST['album_name']) || empty($_POST['album_desc'])){
@@ -7,21 +10,28 @@
    displayPage( $msg, "Error Updating Album!");
    die();
   }
-  db_connect(); 
+
+  //Connection
+  $dbcnx = db_connect(); 
+
   // Insert updated record into DB
   $sql = "UPDATE albums SET album_name = '" . addslashes($_POST['album_name']) . "', album_desc = '" . addslashes($_POST['album_desc']) . "' WHERE album_id = " . addslashes($_POST['album_id']);
-  $result = @mysql_query( $sql ) or die("Error inserting record: " . mysql_error());
+  $result = @mysqli_query( $dbcnx , $sql ) or die("Error inserting record: " . mysqli_error($dbcnx));
   if ($result){
    $msg = "Album updated successfully!<br /><a href='index.php'>Return to Admin Menu</a>";
    displayPage($msg, "Album Updated Successfully!");
    die();
   }
- } else if ( !$_POST['edit'] && !empty($_GET['album_id'])){
-  db_connect();
+
+ } 
+
+ //If the Edit album link was selected from main menu
+ else if ( !$_POST['edit'] && !empty($_GET['album_id'])){
+  $dbcnx = db_connect();
   // Retrieve album information
   $sql = "SELECT album_id, album_name, album_desc FROM albums WHERE album_id = " . addslahes($_GET['album_id']);
-  $result = @mysql_query( $sql ) or die("Error retrieving record: " . mysql_error());
-  while($row = mysql_fetch_array( $result )){
+  $result = @mysqli_query( $dbcnx , $sql ) or die("Error retrieving record: " . mysqli_error($dbcnx));
+  while($row = mysqli_fetch_array( $result )){
    // Display edit page
    $msg .= "<form action=\"edit_albums.php\" method=\"post\">\n";
    $msg .= "<table width=\"60%\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\">\n";
@@ -35,13 +45,19 @@
   }
   displayPage($msg, "Editing Album " . $album_name . ":");
  // Display album summaries
- } elseif ( !$_GET['album_id'] ){
-  db_connect();
+ } 
+ 
+ 
+ elseif ( !$_GET['album_id'] ){
+
+    //echo "third";
+
+  $dbcnx = db_connect();
   // Retrieve all album information  
   $sql = "SELECT album_id, album_name FROM albums";
-  $result = @mysql_query( $sql ) or die( "Error retrieving records: " . mysql_error() );
+  $result = mysqli_query( $dbcnx , $sql ) or die( "Error retrieving records: " . mysqli_error($dbcnx) );
   $i = 0;
-  while($row = mysql_fetch_array($result)){    
+  while($row = mysqli_fetch_array($result)){    
    if (( $i % 2 ) == 0 && ( $i != 0 )){
     $msg .= ("</tr>\n<tr>");
    }

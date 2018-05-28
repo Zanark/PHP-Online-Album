@@ -85,15 +85,15 @@ An online photo album interface where the user can create an album and upload mu
 
 1. Main Menu
 
-![MAIN MENU](ss_1.png)
+![MAIN MENU](ss_1.PNG)
 
 2. Adding an Album
 
-![ADDING ALBUMS](ss_2.png)
+![ADDING ALBUMS](ss_2.PNG)
 
 3. Adding IMAGES
 
-![ADDING IMAGES](ss_3.png)
+![ADDING IMAGES](ss_3.PNG)
 
-![ADDING IMAGES](ss_4.png)
+![ADDING IMAGES](ss_4.PNG)
 

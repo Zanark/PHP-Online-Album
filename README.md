@@ -9,7 +9,7 @@ An online photo album interface where the user can create an album and upload mu
 ## Testing Procedure
 
 1. Create a database with name `album`
-2. Create two tables `albums` and `photos`. The sql query has been provided in mysql_table_initiator.txt
+2. Create two tables `albums` and `photos`. The sql query has been provided in *mysql_table_initiator.txt*
 3. Create a folder named `include`.
 4. Create a php file `config.php` with its content being:
 

@@ -1,15 +1,18 @@
 <?php
 include("include/config.php");
+
+//If no album is selected
 if( !$_GET['album_id'] ){
 $msg .= "No album selected! Please <a href=\"gallery.php\">choose an album</a> you would like to view.";
 // Display error message
 displayPage($msg);
 die();
 }
-db_connect();
+
+$dbcnx = db_connect();
 $sql = "SELECT album_name FROM albums WHERE album_id = " . $_GET['album_id'];
-$result = @mysql_query($sql) or die("Error retrieving record: " . mysql_error()); 
-while($row = @mysql_fetch_array($result)){
+$result = @mysqli_query($dbcnx , $sql) or die("Error retrieving record: " . mysqli_error($dbcnx)); 
+while($row = @mysqli_fetch_array($result)){
 $album_name = $row['album_name'];
 }
 ?>
@@ -33,9 +36,9 @@ $album_name = $row['album_name'];
 <?php
 // Retrieve albums from database
 $sql = "SELECT photos.photo_id, photos.photo_title, photos.photo_desc, photos.photo_date, photos.photo_location, photos.thumbnail_location FROM photos WHERE photos.album_id = " . addslashes($_GET['album_id']);
-$result = @mysql_query($sql) or die("Error retrieving records from the database: " . mysql_error());
+$result = @mysqli_query($dbcnx , $sql) or die("Error retrieving records from the database: " . mysqli_error($dbcnx));
 $i = 0; // Row counter
-while( $row = mysql_fetch_assoc($result))
+while( $row = mysqli_fetch_assoc($result))
 {
 $data[] = $row;
 }
@@ -46,7 +49,7 @@ if ( ( $i % IMAGE_DISPLAY ) == 0 && ($i != 0))
 {
 echo("</tr>\n<tr>");
 } 
-$photo_date = format_date($data[$i]['photo_date']); 
+$photo_date = $data[$i]['photo_date']; 
 if ( $data[$i]['photo_location'] )
 {
 echo("<td valign=\"top\" width=\"" . floor(100 / IMAGE_DISPLAY) . "%\"><p><a href=\"view_photo.php?photo_id=" . $data[$i]['photo_id'] . "\">" . $data[$i]['photo_title'] . "</p><a href=\"view_photo.php?photo_id=" . $data[$i]['photo_id'] . "\" onClick=\"displayPhoto('" . 

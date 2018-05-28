@@ -1,15 +1,18 @@
 <?php
 include("include/config.php");
+
+//If any photo as been selected
 if( !$_GET['photo_id'] ){
 $msg .= "No photo selected! Please <a href=\"gallery.php\">choose an album</a> you would like to view.";
 // Display error message
 displayPage($msg);
 die();
 }
-db_connect();
+
+$dbcnx = db_connect();
 $sql = "SELECT photo_title, photo_location FROM photos WHERE photo_id = " . addslashes($_GET['photo_id']);
-$result = @mysql_query($sql) or die("Error retrieving record: " . mysql_error()); 
-while($row = @mysql_fetch_array($result)){
+$result = @mysqli_query($dbcnx , $sql) or die("Error retrieving record: " . mysqli_error($dbcnx)); 
+while($row = @mysqli_fetch_array($result)){
 $photo_title = $row['photo_title'];
 $photo_loc = $row['photo_location'];
 }

@@ -1,6 +1,6 @@
 <?php
 include("include/config.php");
-db_connect();
+$dbcnx = db_connect();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -27,9 +27,9 @@ $sql = "SELECT albums.album_id, albums.album_name, albums.album_desc, albums.alb
 FROM albums LEFT JOIN photos ON albums.album_id = photos.album_id
 GROUP BY albums.album_name, albums.album_desc
 ORDER BY albums.album_id ASC";
-$result = @mysql_query($sql) or die("Error retrieving records from the database: " . mysql_error());
+$result = @mysqli_query($dbcnx , $sql) or die("Error retrieving records from the database: " . mysqli_error($dbcnx));
 $i = 0; // Row counter
-while( $row = mysql_fetch_assoc($result))
+while( $row = mysqli_fetch_assoc($result))
 {
 $data[] = $row;
 }
@@ -58,7 +58,7 @@ echo("</td>\n");
 <table width="60%" border="0" align="center" cellpadding="3" cellspacing="0">
 <tr>
 <td><a href="index.php">Main Menu</a> | <a href="new_album.php">Create
-New Album</a> | <a href="../gallery.php">View Gallery</a></td>
+New Album</a> | <a href="gallery.php">View Gallery</a></td>
 </tr>
 </table>
 </form>

@@ -72,7 +72,7 @@ function insert_location($thumb_obj){
     $sql = "INSERT INTO photos values(0, '$_POST[photo_title]', '$_POST[photo_desc]', NOW(), '$image_location', '$thumb_location', $_POST[album_id])";
     $result = mysqli_query($dbcnx , $sql) or die("Error inserting record(s) into the database: " . mysqli_error($dbcnx));
     if ($result){
-        echo("Images successfully converted and stored! <br />Click <a href='../admin'>here</a> to continue.");
+        echo("Images successfully converted and stored! <br />Click <a href='index.php'>here</a> to continue.");
     }
 }
 

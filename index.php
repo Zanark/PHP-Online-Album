@@ -34,7 +34,7 @@
 <tr>
 <br><br>
 <td><a href="index.php">Main Menu</a> | <a href="new_album.php">Create
-New Album</a> | <a href="../gallery.php">View Gallery</a></td>
+New Album</a> | <a href="gallery.php">View Gallery</a></td>
 </tr>
 </table>
 </body>

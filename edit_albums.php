@@ -29,7 +29,7 @@
  else if ( !$_POST['edit'] && !empty($_GET['album_id'])){
   $dbcnx = db_connect();
   // Retrieve album information
-  $sql = "SELECT album_id, album_name, album_desc FROM albums WHERE album_id = " . addslahes($_GET['album_id']);
+  $sql = "SELECT album_id, album_name, album_desc FROM albums WHERE album_id = " . addslashes($_GET['album_id']);
   $result = @mysqli_query( $dbcnx , $sql ) or die("Error retrieving record: " . mysqli_error($dbcnx));
   while($row = mysqli_fetch_array( $result )){
    // Display edit page

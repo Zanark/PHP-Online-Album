@@ -1,5 +1,8 @@
 <?php
-include_once("../include/config.php");
+include_once("include/config.php");
+
+$msg = "";
+
 // Has album been updated?
 if ( $_POST['edit'] ){
 if ( empty($_POST['photo_title']) || empty($_POST['photo_desc'])){
@@ -7,21 +10,23 @@ $msg = "Please complete all required fields!<br /><a href='edit_photos.php'>Go B
 displayPage( $msg, "Error Updating Photo!");
 die();
 }
-db_connect();
+
+$dbcnx = db_connect();
+
 // Insert updated record into DB
 $sql = "UPDATE photos SET photo_title = '" . addslashes($_POST['photo_title']) . "', photo_desc = '" . addslashes($_POST['photo_desc']) . "' WHERE photo_id = " . $_POST['photo_id'];
-$result = @mysql_query( $sql ) or die("Error inserting record: " . mysql_error());
+$result = @mysqli_query( $dbcnx , $sql ) or die("Error inserting record: " . mysqli_error($dbcnx));
 if ($result){
 $msg = "Photo updated successfully!<br /><a href='index.php'>Return to Admin Menu</a>";
 displayPage($msg, "Photo Updated Successfully!");
 die();
 }
 } else if ( !$_POST['edit'] && !empty($_GET['photo_id'])){
-db_connect();
+$dbcnx = db_connect();
 // Retrieve album information
 $sql = "SELECT photo_id, photo_title, photo_desc FROM photos WHERE photo_id = " . addslashes($_GET['photo_id']);
-$result = @mysql_query( $sql ) or die("Error retrieving record: " . mysql_error());
-while($row = mysql_fetch_array( $result )){
+$result = @mysqli_query( $dbcnx , $sql ) or die("Error retrieving record: " . mysqli_error($dbcnx));
+while($row = mysqli_fetch_array( $result )){
 // Display edit page
 $msg .= "<form action=\"edit_photos.php\" method=\"post\">\n";
 $msg .= "<table width=\"60%\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\">\n";
@@ -36,18 +41,18 @@ $photo_title = $row['photo_title'];
 displayPage($msg, "Editing Photo " . $photo_title . ":"); 
 // Display album summaries
 } elseif ( !$_GET['photo_id'] ){
-db_connect();
+$dbcnx = db_connect();
 // Retrieve all album information 
-$sql = "SELECT photos.photo_id, photos.photo_title, albums.album_cover FROM photos, albums
+$sql = "SELECT photos.photo_id, photos.photo_title, photos.thumbnail_location , albums.album_cover FROM photos, albums
 WHERE photos.album_id = albums.album_id";
-$result = @mysql_query( $sql ) or die( "Error retrieving records: " . mysql_error() );
+$result = @mysqli_query( $dbcnx , $sql ) or die( "Error retrieving records: " . mysqli_error($dbcnx) );
 $i = 0;
-while($row = mysql_fetch_array($result)){ 
+while($row = mysqli_fetch_array($result)){ 
 if (( $i % IMAGE_DISPLAY ) == 0 && ( $i != 0 )){
 $msg .= ("</tr>\n<tr>");
 }
 $msg .= ("<td>" . ($i + 1) . ". <a href='edit_photos.php?photo_id=" . $row['photo_id'] . "'>");
-$msg .= ($row['photo_title'] . "<br /><img src=\"../" . $row['album_cover'] . "\" /></td>\n"); 
+$msg .= ($row['photo_title'] . "<br /><img src=\"" . $row['thumbnail_location'] . "\" /></td>\n"); 
 $i++;
 }
 displayPage( $msg, "Edit Photos", false );

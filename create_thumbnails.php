@@ -3,6 +3,8 @@ include("GallerySizer.php");
 include("include/config.php");
 DEFINE("IMAGE_FULL", 'photos/');
 
+$dbcnx = db_connect();
+
 // Album cover
 $cover = $_FILES['image']['name'][$_POST['album_cover']];
 
@@ -50,13 +52,13 @@ else {
         insert_location($thumb);
     } 
     else {
-        echo("Error processing images: " . mysqli_error());
+        echo("Error processing images: " . mysqli_error($dbcnx));
     }
 
 // If image matches cover selection, update album cover
 if($cover == $_FILES['image']['name'][$i]){
     $sql = "UPDATE albums SET album_cover = '" . $thumb->getThumbLocation() . "' WHERE album_id = " . $_POST['album_id'];
-    $result = @mysqli_query($sql) or die("Error inserting records: " . mysqli_error());
+    $result = @mysqli_query($dbcnx , $sql) or die("Error inserting records: " . mysqli_error($dbcnx));
 } 
 }
 }

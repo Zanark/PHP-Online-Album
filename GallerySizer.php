@@ -1,8 +1,8 @@
 <?php
 
 // Define script constants
-DEFINE("IMAGE_BASE", '../photos/');
-DEFINE("THUMB_BASE", '../thumbs/');
+DEFINE("IMAGE_BASE", 'photos/');
+DEFINE("THUMB_BASE", 'thumbs/');
 DEFINE("MAX_WIDTH", 100);
 DEFINE("MAX_HEIGHT", 100);
 DEFINE("RESIZE_WIDTH", 800);
@@ -23,6 +23,8 @@ class GallerySizer{
       var $thumbnail;      // Thumbnail image file object
       var $random_file;    // Resized image file name (random)
 
+//------------------------------------------------------------------------>
+
     /*****
      * Retrieves path to uploaded image.
      * Retrieves filename of uploaded image
@@ -33,12 +35,15 @@ class GallerySizer{
         return true;
     }
 
+//------------------------------------------------------------------------>
+
     /*****
     * Determines image type, and creates an image object
     */
     function loadImage(){
         $this->img = null;
-        $extension = strtolower(end(explode('.', $this->image_path)));
+        $temp = explode('.', $this->image_path) ;
+        $extension = strtolower(end($temp));
         if ($extension == 'jpg' || $extension == 'jpeg'){
             $this->img = imagecreatefromjpeg($this->image_path);
         } else if ($extension == 'png'){
@@ -55,6 +60,10 @@ class GallerySizer{
         return true;
     }
 
+
+//------------------------------------------------------------------------> 
+
+
     /*****
     * Retrieves size of original image.  Sets the conversion scale for both         *   the thumbnail and resized image
     */
@@ -68,6 +77,11 @@ class GallerySizer{
             }
         return true;
     }
+
+
+//------------------------------------------------------------------------> 
+
+
 
     /*****
      * Creates a thumbnail image from the original uploaded image
@@ -86,6 +100,11 @@ class GallerySizer{
         return true;
     }
 
+
+//------------------------------------------------------------------------> 
+
+
+
      /*****
      * Resizes uploaded image to desired viewing size
      */
@@ -103,6 +122,11 @@ class GallerySizer{
             return true;
         }
     }
+
+
+//------------------------------------------------------------------------> 
+
+
 
     /*****
      * Copies thumbnail image to specified thumbnail directory.
@@ -124,6 +148,11 @@ class GallerySizer{
         }
         return true;
     }
+
+
+//------------------------------------------------------------------------> 
+
+
 
      /*****
      * Copies the resized image to the specified images directory.
@@ -151,6 +180,11 @@ class GallerySizer{
         return true;
     }
 
+
+//------------------------------------------------------------------------> 
+
+
+
     /*****
      * Generates a random number.  Random number is used to rename
      * the original uploaded image, once resized.
@@ -159,6 +193,11 @@ class GallerySizer{
         return "_" . date("dmy_His");
     }
 
+
+//------------------------------------------------------------------------> 
+
+
+
     /*****
      * Returns path to thumbnail image
      */
@@ -166,12 +205,22 @@ class GallerySizer{
         return "thumbs/" . $this->random_file;
     }
 
+
+//------------------------------------------------------------------------> 
+
+
+
      /*****
      * Returns path to resized image
      */
     function getImageLocation(){
         return "photos/" . $this->random_file;
     }
+
+
+//------------------------------------------------------------------------> 
+
+
 
 }
 

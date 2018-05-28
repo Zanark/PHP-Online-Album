@@ -22,18 +22,20 @@ die();
 //Inserting images to currently selected album
 else {
     for($i = 0; $i < count($_FILES['image']['tmp_name']); $i++){
+        
         $fileName = $_FILES['image']['name'][$i];
         copy($_FILES['image']['tmp_name'][$i], IMAGE_FULL . $fileName);
         $thumb = new GallerySizer();
         if($thumb->getLocation($_FILES['image']['name'][$i])){
+            echo "here";
         if($thumb->loadImage()){
             echo("Still here!");
             if($thumb->getSize()){
                 if($thumb->setThumbnail()){
-                    if($thumb->copyImage()){
+                    if($thumb->copyThumbImage()){
                         if($thumb->resizeImage()){
-                            $thumb->copyResize();
-                            $thumb->display(); 
+                            $thumb->copyResizedImage();
+                            //$thumb->display(); 
                         }
                     }
                 }
@@ -64,9 +66,9 @@ function insert_location($thumb_obj){
     $image_location = $thumb_obj->getImageLocation();
     $thumb_location = $thumb_obj->getThumbLocation();
     $dbcnx = mysqli_connect("localhost", "root", "");
-    mysqli_select_db("album", $dbcnx);
+    mysqli_select_db($dbcnx , "album");
     $sql = "INSERT INTO photos values(0, '$_POST[photo_title]', '$_POST[photo_desc]', NOW(), '$image_location', '$thumb_location', $_POST[album_id])";
-    $result = mysqli_query($sql, $dbcnx) or die("Error inserting record(s) into the database: " . mysqli_error());
+    $result = mysqli_query($dbcnx , $sql) or die("Error inserting record(s) into the database: " . mysqli_error($dbcnx));
     if ($result){
         echo("Images successfully converted and stored! <br />Click <a href='../admin'>here</a> to continue.");
     }

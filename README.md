@@ -4,7 +4,7 @@ An online photo album interface where the user can create an album and upload mu
 ## Prerequsites
 
 * PHPv5 and above
-* any local server for testing
+* Any local server for testing
 
 ## Testing Procedure
 
